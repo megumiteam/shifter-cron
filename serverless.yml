@@ -1,0 +1,11 @@
+service: shifter-cron
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+
+functions:
+  cron:
+    handler: handler.run
+    events:
+      - schedule: rate(30 minutes)
