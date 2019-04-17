@@ -9,3 +9,7 @@ functions:
     handler: handler.run
     events:
       - schedule: rate(30 minutes)
+    environment:
+      USERNAME: username
+      PASSWORD: password
+      SITE_ID: site-id

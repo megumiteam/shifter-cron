@@ -1,32 +1,21 @@
 "use strict";
 
 module.exports.run = () => {
+  const axios = require("axios");
 
-  const https = require("https");
-
-  const options = {
-    hostname: "api.getshifter.io",
-    port: 443,
-    path: "/v1/projects/SITE-ID/artifacts",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "AUTH-TOKEN"
-    }
-  };
-
-  const req = https.request(options, res => {
-    console.log(`statusCode: ${res.statusCode}`);
-
-    res.on("data", d => {
-      process.stdout.write(d);
+  axios
+    .post("https://api.getshifter.io/v1/login", {
+      username: process.env.USERNAME,
+      password: `${process.env.PASSWORD}`
+    })
+    .then(res => {
+      console.log(res.data.AccessToken);
+      axios.defaults.headers.common.Authorization = res.data.AccessToken;
+      axios.post(
+        `https://api.getshifter.io/v1/projects/${process.env.SITE_ID}/artifacts`
+      );
+    })
+    .catch(error => {
+      console.error(error);
     });
-  });
-
-  req.on("error", error => {
-    console.error(error);
-  });
-
-  req.write(data);
-  req.end();
 };
