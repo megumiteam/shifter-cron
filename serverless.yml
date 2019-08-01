@@ -8,7 +8,9 @@ functions:
   cron:
     handler: handler.run
     events:
-      - schedule: rate(30 minutes)
+      - schedule:
+          rate: cron(0 12 * * ? *)
+          enabled: true
     environment:
       USERNAME: username
       PASSWORD: password
